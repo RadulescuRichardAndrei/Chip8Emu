@@ -34,7 +34,11 @@ impl Memory{
     pub fn get_byte(&self, address: usize) -> u8{
         self.buffer[address]
     }
+    pub fn load(&mut self, data: &[u8], start_addr: usize){
+        let end_addr = start_addr+ data.len();
+        self.buffer[start_addr..end_addr].copy_from_slice(data)
 
+    }
     pub fn set_byte(&mut self, address: usize, value: RegisterValue) {
         match value {
             RegisterValue::Bits8(val) => {self.buffer[address] = val;}

@@ -1,3 +1,5 @@
+use std::fs::File;
+use std::io::Read;
 use crate::cpu::Cpu;
 
 mod stack;
@@ -8,12 +10,12 @@ mod decoded_instruction;
 mod keypad;
 
 fn main() {
+    let path= "";
+    let mut rom = File::open(path).expect("Unable to open file");
     let mut cpu= Cpu::new();
-    println!("Before {:?}", cpu.registers[20].get_register_value());
-    let res = cpu.decode_instruction(0x3000);
+    let mut buffer= Vec::new();
+    rom.read_to_end(&mut buffer).unwrap();
+    cpu.initialize(&buffer);
+    cpu.execute();
 
-    if let Err(e) = res{
-        println!("Error: {}",e)
-    }
-    println!("After {:?}", cpu.registers[20].get_register_value());
 }

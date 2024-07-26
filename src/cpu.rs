@@ -21,6 +21,7 @@ const INDEX_POZ :usize =20;
 const VF_POZ: usize=15;
 const DT_POZ: usize=17;
 const ST_POZ: usize=16;
+const START_PC: usize=200;
 
 impl Cpu{
     pub fn new() -> Cpu{
@@ -54,7 +55,14 @@ impl Cpu{
         keypad: Keypad::new(),
         }
     }
-    pub fn execute(&self, start_program:u16){
+    pub fn initialize(&mut self, data: &[u8]){
+        self.memo.load(data,START_PC);
+    }
+    pub fn execute(&mut self){
+        loop{
+            let instr= self.fetch_instruction(u16::from(self.registers[PC_POZ].get_register_value()))
+            let result= self.decode_instruction(instr).unwrap();
+        }
 
     }
 
